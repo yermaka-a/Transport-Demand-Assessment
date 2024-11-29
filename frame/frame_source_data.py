@@ -1,6 +1,6 @@
 from tk_root import tk, root, ttk
 from global_variables import  GLOBAL_VALUES_CONTAINER as GLOBAL_VALUES, GLOBAL_LABEL_CONTAINER as labels, GLOBAL_FRAMES as frames, GLOBAL_INPUTS_CONTAINER as inputs
-from events.input_events import keyRelease_long_input, control_V_keyRelease
+from events.input_events import handle_input, control_V_keyRelease
 from events.buttons_events import open_xls_inputs
 from frame.subframe_title import subframe_title
 def frame_source_data(column, row, sticky):
@@ -83,9 +83,10 @@ def frame_source_data(column, row, sticky):
     divider_label.place(x=50, y=290, anchor='w')
     inputs["divider_input"] = divider_input
 
-    long_input1.bind("<KeyRelease>", lambda e: keyRelease_long_input(e, "long_input1"))
-    long_input2.bind("<KeyRelease>", lambda e: keyRelease_long_input(e, "long_input2"))
-    divider_input.bind("<KeyRelease>",lambda e: keyRelease_long_input(e, "long_input2"))
+    long_input1.bind("<KeyRelease>", lambda e: handle_input(e, "long_input1"))
+    long_input2.bind("<KeyRelease>", lambda e: handle_input(e, "long_input2"))
+    divider_input.bind("<KeyRelease>",lambda e: handle_input(e, "long_input2"))
+
     # count_of_iter_input.bind("<KeyRelease>",lambda e: keyRelease_long_input(e, "long_input2"))
 
     GLOBAL_VALUES["long_input1"].trace_add(mode=('write'), callback=lambda name, i, mode: control_V_keyRelease(i, "long_input1"))

@@ -1,34 +1,36 @@
 import numpy as np
-import pandas as pd
 import xlsxwriter
-import math
 import  xls.write_to_xls as wtxls
-from global_variables import GLOBAL_BOXES_CONTAINER, GLOBAL_COUNT_OF_CONTAINER, GLOBAL_VALUES_CONTAINER as values
-# from plot import plot_graph
-from tk_root import tk, root
+from global_variables import GLOBAL_VALUES_CONTAINER as values
+import os
+from tk_root import tk
 def calculate_models():
     try:
         # Получение данных из инпутов
         long_input1 = values["long_input1"].get()
         long_input2 = values["long_input2"].get()
-        small_input = values["small_input"].get()
-        filename_input = ""
-        if GLOBAL_BOXES_CONTAINER[0][1].get() == 1:
-            filename_input = values["filename_input"].get()
-            filename_input = f"{GLOBAL_COUNT_OF_CONTAINER[0]}_{filename_input}"
-            GLOBAL_COUNT_OF_CONTAINER[0] += 1
+        count_of_iter_start = values["count_of_iter_start"].get()
+        count_of_iter_end = values["count_of_iter_end"].get()
+        print(count_of_iter_start, count_of_iter_end)
+        path = "./Вывод данных/"
+        if values["autonum_files_value"].get():
+            if not os.path.isdir(path):
+                os.mkdir("./Вывод данных/")
+            count_files = len(os.listdir(path))
+            filename_out = values["filename_out_value"].get()
+            filename_input = f"{count_files + 1}_{filename_out}"
         else:
-            filename_input = values["filename_input"].get()
-        book = xlsxwriter.Workbook(f"{filename_input}.xlsx")
+            filename_input = values["filename_out_value"].get()
+        book = xlsxwriter.Workbook(f"./Вывод данных/{filename_input}.xlsx")
         # Здесь можно добавить обработку данных
-        num_of_iterations = [int(i.strip()) - 1 for i in small_input.strip().split(' ')]
+        num_of_iterations = [int(count_of_iter_start) - 1, int(count_of_iter_end) - 1]
         print("num_of_iterations: ", num_of_iterations)
         aV = list(map(float, long_input1.strip().split(' ')))
         bV = list(map(float, long_input2.strip().split(' ')))
         # plot_graph(canvas, aV, bV)
         A = np.array(aV)
         B = np.array(bV)
-        E = float(values["error_input"].get().strip())
+        E = float(values["accuracy_value"].get())
         n = len(aV)
         X1 = np.zeros((n,n))
         X2 = np.zeros((n,n))
@@ -47,7 +49,7 @@ def calculate_models():
                 X1[i][j] = aV[i]*bV[j] / S1[i]*aV[i]
         # Итеративные приближения матрицы корреспонденций по достижении заданной
         # точности или истечении максимального числа итераций
-        MaxIter = int(values["count_of_iter_input"].get().strip())
+        MaxIter = int(values["count_of_iter"].get())
         kolvo_iter = 0
         SumStb = [0 for i in range(n)]
         SumStr = [0 for i in range(n)]
@@ -126,7 +128,7 @@ def calculate_models():
                 H2[i] = X03[i+1]
             else:
                 G2[i] = X03[i+1]
-        # X0 = np.concatenate((np.array(X01), np.array(H1), np.array(H2), np.array(G1), np.array(G2)), axis=None)
+        X0 = np.concatenate((np.array(X01), np.array(H1), np.array(H2), np.array(G1), np.array(G2)), axis=None)
 
         lb = np.full((round(((n*n+7*n)/2-4))),0)
         # % Формируем ограничения на верхние границы переменных
@@ -197,7 +199,7 @@ def calculate_models():
         for i in range(len(lb)):
             bounds.append((lb[i],ub[i]))
         # print(bounds)
-        result = sp.linprog(c=f, A_eq=Aeg, b_eq=Beq , bounds=bounds, method=GLOBAL_BOXES_CONTAINER[1].get())
+        result = sp.linprog(c=f, A_eq=Aeg, b_eq=Beq , bounds=bounds, method=values["robast_method_value"].get(), x0=X0)
         # Востанавливаем полученный вектро X в матрицу корреспонденций
         X1=np.zeros((n,n))
         k=0

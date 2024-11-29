@@ -10,7 +10,7 @@ def frame_robast(column, row, sticky):
     _3subframe1.place(x=10, y=50)
     frames["_3subframe1"] = _3subframe1
     _3frame1.grid_columnconfigure(0, weight=1)
-    robast_method_value = tk.StringVar()
+    robast_method_value = tk.StringVar(value="simplex")
     values["robast_method_value"] = robast_method_value
     robast_methods = [ i for i in methods.values()]
     robast_method_lb = ttk.Combobox(_3subframe1, values=robast_methods, textvariable=robast_method_value, state="readonly",  width=18)

@@ -19,8 +19,7 @@ def frame_out(column, row, sticky):
     filename_out_inp.place(x=10,y=40, anchor="w")
     autonum_files_lbl = tk.Label(_4subframe1, text="Автоматическая нумерация")
     autonum_files_lbl.place(x=10,y=70, anchor="w")
-    autonum_flies_value = tk.BooleanVar(value=1)
-    values["autonum_flies_value"] = autonum_flies_value
-    autonum_files_chkbtn = ttk.Checkbutton(_4subframe1, variable=autonum_flies_value, text="")
+    autonum_files_value = tk.BooleanVar(value=1)
+    values["autonum_files_value"] = autonum_files_value
+    autonum_files_chkbtn = ttk.Checkbutton(_4subframe1, variable=autonum_files_value, text="")
     autonum_files_chkbtn.place(x=len("Автоматическая нумерация")*8+5, y=73, anchor="w")
-    autonum_files_chkbtn.bind("<ButtonRelease>", lambda e: 2)
