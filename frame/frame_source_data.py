@@ -95,6 +95,6 @@ def frame_source_data(column, row, sticky):
 
     input_from_xlsx_label = tk.Label(_1subframe2, text="Ввод с EXCEL файла:")
     input_from_xlsx_label.place(x=10,y=15, anchor="w")
-    input_from_checkbtn = ttk.Checkbutton(_1subframe2, variable=value_of_checkBox_inputsource)
-    input_from_checkbtn.place(x=len("Ввод с EXCEL файла:")*8, y=20, bordermode="ignore",anchor="w")
+    input_from_checkbtn = tk.Checkbutton(_1subframe2, variable=value_of_checkBox_inputsource)
+    input_from_checkbtn.place(relx=0.65, rely=0.06,anchor="w")
     input_from_checkbtn.bind("<ButtonRelease>", lambda e: open_xls_inputs(e))

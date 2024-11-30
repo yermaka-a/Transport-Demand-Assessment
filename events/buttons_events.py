@@ -1,18 +1,18 @@
 
-from global_variables import GLOBAL_VALUES_CONTAINER as values, GLOBAL_INPUTS_CONTAINER as inputs, GLOBAL_FRAMES as frames, GLOBAL_BUTTONS_CONTAINER as buttons
-from tk_root import tk, root, ttk
+from global_variables import GLOBAL_VALUES_CONTAINER as values, GLOBAL_FRAMES as frames, GLOBAL_BUTTONS_CONTAINER as buttons
+from tk_root import tk, ttk
 from events.input_events import check_inputs_filling
 from xls.get_data_from_xls import get_data_from_xls
 def open_xls_inputs(_):
-    if(values["value_of_checkBox_inputsource"].get() == 1):
+    if(values["value_of_checkBox_inputsource"].get() == 0):
         for widget in frames["_1subframe2"].winfo_children():
             if isinstance(widget, tk.Label):
                 if widget["text"] == "Ввод с EXCEL файла:":
                     continue
-            if isinstance(widget, ttk.Checkbutton):
+            if isinstance(widget, tk.Checkbutton):
                 continue
             widget.place_forget()
-    elif(values["value_of_checkBox_inputsource"].get() == 0):
+    elif(values["value_of_checkBox_inputsource"].get() == 1):
             file_lbl_xls = tk.Label(frames["_1subframe2"], text="Имя файла:")
             file_lbl_xls.place(x=10,y=45, anchor="w")
             filename_in_value = tk.StringVar()

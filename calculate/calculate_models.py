@@ -1,27 +1,27 @@
 import numpy as np
 import xlsxwriter
 import  xls.write_to_xls as wtxls
-from global_variables import GLOBAL_VALUES_CONTAINER as values
+from global_variables import GLOBAL_VALUES_CONTAINER as values, GLOBAL_PLOTSDATA as plots_data
 import os
 from tk_root import tk
-def calculate_models():
+def calculate_models(is_write, is_plot):
     try:
         # Получение данных из инпутов
         long_input1 = values["long_input1"].get()
         long_input2 = values["long_input2"].get()
         count_of_iter_start = values["count_of_iter_start"].get()
         count_of_iter_end = values["count_of_iter_end"].get()
-        print(count_of_iter_start, count_of_iter_end)
-        path = "./Вывод данных/"
-        if values["autonum_files_value"].get():
-            if not os.path.isdir(path):
-                os.mkdir("./Вывод данных/")
-            count_files = len(os.listdir(path))
-            filename_out = values["filename_out_value"].get()
-            filename_input = f"{count_files + 1}_{filename_out}"
-        else:
-            filename_input = values["filename_out_value"].get()
-        book = xlsxwriter.Workbook(f"./Вывод данных/{filename_input}.xlsx")
+        if is_write:
+            path = "./Вывод данных/"
+            if values["autonum_files_value"].get():
+                if not os.path.isdir(path):
+                    os.mkdir("./Вывод данных/")
+                count_files = len(os.listdir(path))
+                filename_out = values["filename_out_value"].get()
+                filename_input = f"{count_files + 1}_{filename_out}"
+            else:
+                filename_input = values["filename_out_value"].get()
+            book = xlsxwriter.Workbook(f"./Вывод данных/{filename_input}.xlsx")
         # Здесь можно добавить обработку данных
         num_of_iterations = [int(count_of_iter_start) - 1, int(count_of_iter_end) - 1]
         print("num_of_iterations: ", num_of_iterations)
@@ -42,7 +42,8 @@ def calculate_models():
             for j in range(i+1, n):
                 S1[i]=S1[i]+aV[i]*bV[j]
                 # print(f"A{i}B{j}",aV[i],bV[j])
-        wtxls.write_to_xls_S1(book, S1, n)
+        if is_write:
+            wtxls.write_to_xls_S1(book, S1, n)
         # Матрица корреспонденции после первой итерации X1ij
         for i in range(n-1):
             for j in range(i+1, n):
@@ -55,6 +56,7 @@ def calculate_models():
         SumStr = [0 for i in range(n)]
         K = [0 for i in range(n)]
         K1 = [0 for i in range(n-1)]
+        plots_data["errors"] = []
         for k in range(MaxIter):
             l = MaxIter
             #Итерация вторая - Балансировка по выходам (столбцам)
@@ -93,7 +95,10 @@ def calculate_models():
                 for j in range(i+1,n):
                     X3[i][j] = K1[i]*X2[i][j]
             # загрузка в excel
-            wtxls.write_to_xls_gravit_model(book, num_of_iterations, k, kolvo_iter, X1, X2,X3,SumStr,SumStb, K, K1,Eiter, Er, n)
+            if is_write:
+                wtxls.write_to_xls_gravit_model(book, num_of_iterations, k, kolvo_iter, X1, X2,X3,SumStr,SumStb, K, K1,Eiter, Er, n)
+            if is_plot:
+                plots_data["errors"].append(Er.max())
             SumStb = [0 for i in range(n)]
             SumStr = [0 for i in range(n)]
             K = [0 for i in range(n)]
@@ -105,7 +110,8 @@ def calculate_models():
         # % точности или истечении максимального числа итераций гравитационным
         # % методом
         # % Разворачиваем полученную матрицу корреспонденций X1 в вектор столбец X01
-
+        if is_plot:
+            plots_data["corr_matrix"] = np.copy(X)
         X01 = []
         for i in range(n-1):
             for j in range(i+1, n):
@@ -258,6 +264,9 @@ def calculate_models():
             G2[k] =result.x[i]
             k=k+1
         G2 = np.round(G2)
-        wtxls.write_to_xls_robast_model(book, X)
+        if is_write:
+            wtxls.write_to_xls_robast_model(book, X)
+        if is_plot:
+            plots_data["robast_matrix"] = np.copy(X)
     except Exception as e:
         tk.messagebox.showwarning("Предупреждение", f"Что-то пошло не так! \nОшибка: \n{e}")

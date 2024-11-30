@@ -50,8 +50,10 @@ def toggle_state_process_btn():
       vB = list(map(float, filter(lambda x: x!="", values["long_input2"].get().strip().split(divider_value))))
       if len(vA) == len(vB):
           buttons["process_button"].config(state="active")
+          buttons["plots_button"].config(state="active")
       else:
           buttons["process_button"].config(state="disabled")
+          buttons["plots_button"].config(state="disabled")
 def control_V_keyRelease(_, input_name):
     data = values[input_name].get()
     data_arr = []

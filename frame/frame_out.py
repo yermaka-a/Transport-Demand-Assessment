@@ -21,5 +21,5 @@ def frame_out(column, row, sticky):
     autonum_files_lbl.place(x=10,y=70, anchor="w")
     autonum_files_value = tk.BooleanVar(value=1)
     values["autonum_files_value"] = autonum_files_value
-    autonum_files_chkbtn = ttk.Checkbutton(_4subframe1, variable=autonum_files_value, text="")
-    autonum_files_chkbtn.place(x=len("Автоматическая нумерация")*8+5, y=73, anchor="w")
+    autonum_files_chkbtn = tk.Checkbutton(_4subframe1, variable=autonum_files_value, text="")
+    autonum_files_chkbtn.place(relx=0.29, rely=0.24, anchor="w")

@@ -1,9 +1,5 @@
 import os
 from tk_root import root
-# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-# import matplotlib.pyplot as plt
-# from choose_calculate_type import choose_calculate_type
-# # from plot import plot_graph
 from events.input_events import handle_input
 from global_variables import GLOBAL_VALUES_CONTAINER as GLOBAL_VALUES, GLOBAL_TREE, GLOBAL_FRAMES as frames
 from closing import on_closing

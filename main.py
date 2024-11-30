@@ -1,5 +1,5 @@
 
-from open_modal import root, tk, ttk
+from open_modal import root
 
 # Запуск приложения
 if __name__ == "__main__":
