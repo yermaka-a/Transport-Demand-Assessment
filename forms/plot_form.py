@@ -1,6 +1,7 @@
 from tk_root import tk, ttk, root
 from global_variables import GLOBAL_FRAMES as frames, GLOBAL_PLOTSDATA as plots_data
 from forms.note_frame1 import plot_note_frame1
+from forms.note_frame2 import plot_note_frame2
 def create_plot_form():
     plot_form = tk.Toplevel(root)
     plot_form.title("Графики")
@@ -23,3 +24,4 @@ def create_plot_form():
     print(plots_data.keys())
     print(plots_data.values())
     plot_note_frame1()
+    plot_note_frame2()

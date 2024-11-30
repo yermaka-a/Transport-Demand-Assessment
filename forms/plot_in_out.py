@@ -2,7 +2,7 @@
 from tk_root import tk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-def plot_in_out(plotsubframe, matrix):
+def plot_in_out(plotsubframe, matrix, title):
     count_plots = len(matrix)
     half_count =round(count_plots / 2)
     fig, axes = plt.subplots(half_count, half_count+1, figsize=(5 * count_plots, round(4 * half_count)))
@@ -22,7 +22,7 @@ def plot_in_out(plotsubframe, matrix):
             else:
                 axes[j][i].set_visible(False)
             k += 1
-    fig.suptitle("Структура корреспонденций прибывающего пассажиропотока \n по остановкам", fontsize=16, y=0.9)
+    fig.suptitle(title, fontsize=16, y=0.9)
     canvas = FigureCanvasTkAgg(fig, master=plotsubframe)
     canvas.draw()
     canvas_widget = canvas.get_tk_widget()
