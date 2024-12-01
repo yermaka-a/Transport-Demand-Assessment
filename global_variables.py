@@ -5,7 +5,7 @@ GLOBAL_INPUTS_CONTAINER = {}
 GLOBAL_GRAPHICS_CONTAINER = []
 GLOBAL_ROBAST_METHODS = {
                         'simplex': 'simplex',
-                        'inferior-point':'inferior point',
+                        'interior-point':'interior-point',
                         'revised simplex': 'revised simplex',
                         'highs-ipm': 'highs-ipm',
                         'highs-ds':'highs-ds',

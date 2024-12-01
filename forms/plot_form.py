@@ -2,11 +2,20 @@ from tk_root import tk, ttk, root
 from global_variables import GLOBAL_FRAMES as frames, GLOBAL_PLOTSDATA as plots_data
 from forms.note_frame1 import plot_note_frame1
 from forms.note_frame2 import plot_note_frame2
+
+
+def close_window():
+    if plot_form.winfo_exists():
+        plot_form.destroy()
+        for i in range(1, 4):
+            del frames[f"note_frame{i}"]
+
 def create_plot_form():
+    global plot_form
     plot_form = tk.Toplevel(root)
     plot_form.title("Графики")
     plot_form.geometry("800x600")
-    # plot_form.protocol("WM_DELETE_WINDOW", lambda: plot_form.destroy())
+    plot_form.protocol("WM_DELETE_WINDOW", lambda: close_window())
     plt_notebook = ttk.Notebook(plot_form)
     plt_notebook.pack(expand=True, fill=tk.BOTH)
     note_frame1 = ttk.Frame(plt_notebook)
@@ -25,3 +34,4 @@ def create_plot_form():
     print(plots_data.values())
     plot_note_frame1()
     plot_note_frame2()
+    print(frames.keys())
