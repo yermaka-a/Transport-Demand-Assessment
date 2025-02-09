@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/2b6acd2f-cce1-49ba-864a-3356d425537d)# Transport Demand Assessment Program Using Matrix Models 🚏
+# Transport Demand Assessment Program Using Matrix Models 🚏
 
 ## Table of contents
 
