@@ -48,6 +48,5 @@ handle_input(0, "long_input2")
 
 GLOBAL_TREE["global_tree"].bind('<<TreeviewSelect>>', lambda e: on_tree_select(e))
 on_tree_select(None)
-print(GLOBAL_VALUES.keys())
+
 root.protocol("WM_DELETE_WINDOW", on_closing)
-print(frames.keys())
